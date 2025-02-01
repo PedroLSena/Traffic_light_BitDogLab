@@ -90,7 +90,22 @@ int main() {
             timer_callback_called = false;
         }
 
-
+        // Imprime uma mensagem a cada segundo
+        if (absolute_time_diff_us(last_print_time, get_absolute_time()) >= 1000000) {
+            printf("Estado atual do semáforo: ");
+            switch (current_state) {
+                case STATE_RED:
+                    printf("Vermelho\n");
+                    break;
+                case STATE_YELLOW:
+                    printf("Amarelo\n");
+                    break;
+                case STATE_GREEN:
+                    printf("Verde\n");
+                    break;
+            }
+            last_print_time = get_absolute_time();
+        }
     }
 
     return 0;
