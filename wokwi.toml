@@ -1,0 +1,4 @@
+[wokwi]
+version = 1
+firmware = 'build/Traffic_light_signal.uf2'
+elf = 'build/Traffic_light_signal.elf'
