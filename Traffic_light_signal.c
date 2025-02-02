@@ -15,7 +15,7 @@ typedef enum {
 } traffic_light_state_t;
 
 // Variáveis globais
-volatile traffic_light_state_t current_state = STATE_RED;
+volatile traffic_light_state_t current_state = STATE_GREEN;
 volatile bool timer_callback_called = false;
 
 // Função de callback do temporizador
