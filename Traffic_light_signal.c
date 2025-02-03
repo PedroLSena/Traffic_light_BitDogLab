@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "hardware/gpio.h"
+#include "hardware/uart.h"
 
 // Definição dos pinos dos LEDs
 #define LED_RED 11    // GPIO11 para o LED vermelho
@@ -71,7 +72,13 @@ void update_leds() {
 }
 
 int main() {
- // Inicializa a comunicação serial
+    // Inicializa a UART
+    uart_init(uart0, 115200);
+    gpio_set_function(0, GPIO_FUNC_UART); // GPIO0 como TX
+    gpio_set_function(1, GPIO_FUNC_UART); // GPIO1 como RX
+
+    // Aguarda um pouco para garantir que a UART esteja pronta
+    sleep_ms(1000);
 
     // Inicializa os LEDs
     init_leds();
@@ -92,16 +99,16 @@ int main() {
 
         // Imprime uma mensagem a cada segundo
         if (absolute_time_diff_us(last_print_time, get_absolute_time()) >= 1000000) {
-            printf("Estado atual do semáforo: ");
+            uart_puts(uart0, "Estado atual do semáforo: ");
             switch (current_state) {
                 case STATE_RED:
-                    printf("Vermelho\n");
+                    uart_puts(uart0, "Vermelho \n");
                     break;
                 case STATE_YELLOW:
-                    printf("Amarelo\n");
+                    uart_puts(uart0, "Amarelo \n");
                     break;
                 case STATE_GREEN:
-                    printf("Verde\n");
+                    uart_puts(uart0, "Verde \n");
                     break;
             }
             last_print_time = get_absolute_time();
